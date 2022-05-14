@@ -20,11 +20,10 @@
  *
 **/
 
-class WOD_main_controller{
-     // Here initialize our namespace and resource name.
-    public function __construct() {
-        $this->namespace     = '/my-namespace/v1';
-        $this->resource_name = 'posts';
+ ///ENQUEUE SCRIPT FOR LOCAL STORAGE 
+ defined('ABSPATH') or die ('Unauthorized Access');
+
+function WOD_init(){
 
         /***
         **** Admin menu bar
@@ -41,6 +40,7 @@ class WOD_main_controller{
         $position = 1;
 
         add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position );
-    }
- 
+
 }
+
+register_activation_hook( __DIR__, "WOD_init" );
