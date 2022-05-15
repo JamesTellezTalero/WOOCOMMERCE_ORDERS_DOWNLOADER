@@ -33,19 +33,38 @@ function WOD_admin_menu(){
         **** Admin menu bar
         ***/
 
-    add_menu_page(
-		__( 'Woocommerce Orders Downloader', 'woocommerce-orders-downloader' ),
-		__( 'Orders', 'woocommerce-orders-downloader' ),
-		'manage_options',
-		'woocommerce-orders-downloader',
-		'my_admin_page_contents',
-		'dashicons-pdf',
-		3
-	);
+	if ( is_plugin_active('woocommerce/woocommerce.php') ) {
+    
+		add_menu_page(
+			__( 'Woocommerce Orders Downloader', 'woocommerce-orders-downloader' ),
+			__( 'Orders', 'woocommerce-orders-downloader' ),
+			'manage_options',
+			'woocommerce-orders-downloader',
+			'my_admin_page_contents',
+			'dashicons-pdf',
+			3
+		);
+
+	}else{
+		WOD_woocommerce_DontHaveInstall();
+	}
 
 }
 
 add_action( "admin_menu" , "WOD_admin_menu" );
+
+/**
+ * DISPLAY ALERT IF WE DONT HAD WOOCOMMERCE
+ * 
+ * @access public
+ * @return void
+ */
+function WOD_woocommerce_DontHaveInstall() {
+	$class = 'notice notice-error';
+	$message = __( 'Ups... No tienes activado/instalado el plugin Woocomerce', 'sample-text-domain' );
+
+	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) ); 
+}
 
 /**
  * Creamos la vista de administrador
@@ -54,17 +73,13 @@ add_action( "admin_menu" , "WOD_admin_menu" );
  * @return void
  */
 function my_admin_page_contents() {
+
 		?>
 			<h1>
 				<?php esc_html_e( 'Welcome to my custom admin page.', 'my-plugin-textdomain' ); ?>
 			</h1>
 		<?php
 
-		if ( is_plugin_active('woocommerce/woocommerce.php') ) {
-  			echo "<br>";
-  			echo "woocommerce is active";
-  			echo "<br>";
-		}
 }
 
 /**
