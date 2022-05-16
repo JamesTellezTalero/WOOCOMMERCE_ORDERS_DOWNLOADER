@@ -62,7 +62,7 @@ function wptuts_styles_with_the_lot()
     // For either a plugin or a theme, you can then enqueue the style:
     wp_enqueue_style( 'adminStyles' );
 }
-add_action( 'wp_enqueue_scripts', 'wptuts_styles_with_the_lot' );
+add_action( 'admin_head', 'wptuts_styles_with_the_lot' );
 
 /**
  * DISPLAY ALERT IF WE DONT HAD WOOCOMMERCE
@@ -86,55 +86,69 @@ function WOD_woocommerce_DontHaveInstall() {
 function my_admin_page_contents() {
 
 		?>
-			<h1>
-				<?php esc_html_e( 'Welcome to my custom admin page.', 'my-plugin-textdomain' ); ?>
+
+		<div class="WOD_admin-titleContainer">
+		
+			<h1 class="WOD_d-none">
+				<?php esc_html_e( 'Woocommerce Orders Downloader.', 'woocommerce-orders-downloader' ); ?>
 			</h1>
+
+			<h1 class="WOD_admin-title">
+				Elige el formato deseado
+			</h1>
+
+		</div>
 			
 <div class="WOD-card_container">
 
-    <div class="WOD-card">
-    
-        <div class="WOD-card_overlay"></div>
+    <div class="WOD-card WOD_cardPDF">
 
         <div class="WOD-card_innerContent">
 
-            <h1 class="WOD-card_title">
-            Lorem, ipsum.
-            </h1>
+            <div>
+			
+				<h3 class="WOD-card_title">
+					Ordenes Formato PDF
+				</h3>
 
-            <h3 class="WOD-card_type">
-                Lorem ipsum dolor sit.
-            </h3>
+			</div>
+			
 
-            <button class="WOD-card_button">Lorem.</button>
+			<img class="WOD-card_img" src="<?php echo WP_PLUGIN_URL;?>/WOOCOMMERCE_ORDERS_DOWNLOADER/src/img/pdf.png" alt="">
+
+            <button class="WOD-card_button">Descargar</button>
 
         </div>
+    
+        <div class="WOD-card_overlay"></div>
 
     </div>
-    <div class="WOD-card">
-    
-        <div class="WOD-card_overlay"></div>
+    <div class="WOD-card WOD_cardExcel">
 
         <div class="WOD-card_innerContent">
 
-            <h1 class="WOD-card_title">
-            Lorem, ipsum.
-            </h1>
+            <div>
+			
+				<h3 class="WOD-card_title">
+					Ordenes Formato Excel
+				</h3>
 
-            <h3 class="WOD-card_type">
-                Lorem ipsum dolor sit.
-            </h3>
+			</div>
+			
 
-            <button class="WOD-card_button">Lorem.</button>
+			<img class="WOD-card_img" src="<?php echo WP_PLUGIN_URL;?>/WOOCOMMERCE_ORDERS_DOWNLOADER/src/img/excel.png" alt="">
+
+            <button class="WOD-card_button">Descargar</button>
 
         </div>
+    
+        <div class="WOD-card_overlay"></div>
 
     </div>
 
 </div>
 
 		<?php
-
 }
 
 /**
