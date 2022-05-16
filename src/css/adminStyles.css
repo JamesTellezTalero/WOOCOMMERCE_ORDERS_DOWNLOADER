@@ -1,0 +1,24 @@
+.WOD-card_container {
+    display: grid;
+    grid-template-columns: repeat(1fr);
+}
+
+@media (max-width:797px) {
+    .WOD-card_container {
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+    }
+}
+
+.WOD-card {}
+
+.WOD-card_overlay {}
+
+.WOD-card_innerContent {}
+
+.WOD-card_title {}
+
+.WOD-card_type {}
+
+.WOD-card_button {}

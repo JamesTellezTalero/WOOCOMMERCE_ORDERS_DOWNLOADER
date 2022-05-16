@@ -24,8 +24,6 @@
 
 // use Controllers\adminPage\WodMainController;
 
-
-
 function WOD_admin_menu(){
 
 	// $controller = new WodMainController;
@@ -47,11 +45,24 @@ function WOD_admin_menu(){
 
 	}else{
 		WOD_woocommerce_DontHaveInstall();
+
+		return;
 	}
 
 }
 
 add_action( "admin_menu" , "WOD_admin_menu" );
+
+
+function wptuts_styles_with_the_lot()
+{
+    // Register the style like this for a plugin:
+    wp_register_style( 'adminStyles', plugins_url( '/src/css/adminStyles.css', __FILE__ ), array(), '20120208', 'all' );
+ 
+    // For either a plugin or a theme, you can then enqueue the style:
+    wp_enqueue_style( 'adminStyles' );
+}
+add_action( 'wp_enqueue_scripts', 'wptuts_styles_with_the_lot' );
 
 /**
  * DISPLAY ALERT IF WE DONT HAD WOOCOMMERCE
@@ -78,6 +89,50 @@ function my_admin_page_contents() {
 			<h1>
 				<?php esc_html_e( 'Welcome to my custom admin page.', 'my-plugin-textdomain' ); ?>
 			</h1>
+			
+<div class="WOD-card_container">
+
+    <div class="WOD-card">
+    
+        <div class="WOD-card_overlay"></div>
+
+        <div class="WOD-card_innerContent">
+
+            <h1 class="WOD-card_title">
+            Lorem, ipsum.
+            </h1>
+
+            <h3 class="WOD-card_type">
+                Lorem ipsum dolor sit.
+            </h3>
+
+            <button class="WOD-card_button">Lorem.</button>
+
+        </div>
+
+    </div>
+    <div class="WOD-card">
+    
+        <div class="WOD-card_overlay"></div>
+
+        <div class="WOD-card_innerContent">
+
+            <h1 class="WOD-card_title">
+            Lorem, ipsum.
+            </h1>
+
+            <h3 class="WOD-card_type">
+                Lorem ipsum dolor sit.
+            </h3>
+
+            <button class="WOD-card_button">Lorem.</button>
+
+        </div>
+
+    </div>
+
+</div>
+
 		<?php
 
 }
