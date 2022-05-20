@@ -38,7 +38,7 @@ function WOD_admin_menu(){
 			__( 'Orders', 'woocommerce-orders-downloader' ),
 			'manage_options',
 			'woocommerce-orders-downloader',
-			'my_admin_page_contents',
+			'WOD_admin_page_contents',
 			'dashicons-pdf',
 			3
 		);
@@ -54,7 +54,7 @@ function WOD_admin_menu(){
 add_action( "admin_menu" , "WOD_admin_menu" );
 
 
-function wptuts_styles_with_the_lot()
+function WOD_register_style()
 {
     // Register the style like this for a plugin:
     wp_register_style( 'adminStyles', plugins_url( '/src/css/adminStyles.css', __FILE__ ), array(), '20120208', 'all' );
@@ -62,7 +62,7 @@ function wptuts_styles_with_the_lot()
     // For either a plugin or a theme, you can then enqueue the style:
     wp_enqueue_style( 'adminStyles' );
 }
-add_action( 'admin_head', 'wptuts_styles_with_the_lot' );
+add_action( 'admin_head', 'WOD_register_style' );
 
 /**
  * DISPLAY ALERT IF WE DONT HAD WOOCOMMERCE
@@ -83,7 +83,7 @@ function WOD_woocommerce_DontHaveInstall() {
  * @access public
  * @return void
  */
-function my_admin_page_contents() {
+function WOD_admin_page_contents() {
 
 		?>
 
@@ -149,6 +149,7 @@ function my_admin_page_contents() {
 </div>
 
 		<?php
+
 }
 
 /**
@@ -157,7 +158,7 @@ function my_admin_page_contents() {
  * @access public
  * @return void
  */
-function register_required_plugins() {
+function WOD_register_required_plugins() {
     // Variables
     $plugins  = array(
         // Mi plugin o tema necesita del plugin WP REST API para funcionar correctamente
@@ -172,6 +173,52 @@ function register_required_plugins() {
     // que se encargará de las dependencias.
     tgmpa( $plugins);
 }
-add_action( 'tgmpa_register', 'register_required_plugins' );
+add_action( 'tgmpa_register', 'WOD_register_required_plugins' );
 
+/**
+ * Get all yhe orders
+ * 
+ * @access public
+ * @return void
+ */
+function WOD_get_orders(){
+	/*
+     ** PENNDING ORDERS
+    */
+    $pw_orders = []; // Array to collect customer IDs
+    $pw_unpaid_orders = (array) wc_get_orders( array(
 
+        'limit'        => -1,
+        'status'       => 'pending',
+        
+    ));
+
+    $pw_canceled_orders = (array) wc_get_orders( array(
+
+        'limit'        => -1,
+        'status'       => 'canceled',
+        
+    ));
+
+    foreach ($pw_unpaid_orders as $order) { // Looping all orders to fetch customer IDs
+
+        $pw_payment_method = $order;
+
+		$order = wc_get_order($order);
+
+		array_push($pw_orders, $order);
+    }
+    
+	foreach ($pw_canceled_orders as $order) { // Looping all orders to fetch customer IDs
+
+        $pw_payment_method = $order;
+
+		$order = wc_get_order($order);
+
+		array_push($pw_orders, $order);
+    }
+
+	var_dump($pw_orders);
+}
+
+add_action( "admin_head", "WOD_get_orders");
