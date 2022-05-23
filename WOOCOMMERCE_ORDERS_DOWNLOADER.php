@@ -22,6 +22,15 @@
  ///ENQUEUE SCRIPT FOR LOCAL STORAGE 
  defined('ABSPATH') or die ('Unauthorized Access');
 
+////////////////////////////////////
+
+// if( class_exists( 'PHPExcel' ) )
+// {
+//     // require/include here
+//     require 'lib/PHPExcel.php';
+//     require 'lib/PHPExcel/Writer/Excel2007.php';
+// }
+
 // use Controllers\adminPage\WodMainController;
 
 function WOD_admin_menu(){
@@ -182,43 +191,51 @@ add_action( 'tgmpa_register', 'WOD_register_required_plugins' );
  * @return void
  */
 function WOD_get_orders(){
-	/*
-     ** PENNDING ORDERS
-    */
-    $pw_orders = []; // Array to collect customer IDs
-    $pw_unpaid_orders = (array) wc_get_orders( array(
 
-        'limit'        => -1,
-        'status'       => 'pending',
+    $array = wc_get_order_statuses();
+
+    $WOD_orders = []; // Array to collect customer IDs
+
+    foreach ($array as $clave => $valor) {
         
-    ));
+        /*
+        ** PENNDING ORDERS
+        */
 
-    $pw_canceled_orders = (array) wc_get_orders( array(
+        $WOD_allOrders = (array) wc_get_orders( array(
 
-        'limit'        => -1,
-        'status'       => 'canceled',
-        
-    ));
+            'limit'        => -1,
+            'status'       => $clave,
+            
+        ));
 
-    foreach ($pw_unpaid_orders as $order) { // Looping all orders to fetch customer IDs
+        foreach ($WOD_allOrders as $order) { // Looping all orders to fetch customer IDs
 
-        $pw_payment_method = $order;
+            $order = wc_get_order($order);
 
-		$order = wc_get_order($order);
+            array_push($WOD_orders, $order);
+        }
 
-		array_push($pw_orders, $order);
-    }
-    
-	foreach ($pw_canceled_orders as $order) { // Looping all orders to fetch customer IDs
-
-        $pw_payment_method = $order;
-
-		$order = wc_get_order($order);
-
-		array_push($pw_orders, $order);
     }
 
-	var_dump($pw_orders);
+    echo count($WOD_orders);
+
+//     $objPHPExcel = new PHPExcel();
+
+//     $objPHPExcel->getProperties()->setCreator("TuEmpresa");
+//     $objPHPExcel->getProperties()->setLastModifiedBy("TuEmpresa");
+//     $objPHPExcel->getProperties()->setTitle("Titulo");
+//     $objPHPExcel->getProperties()->setSubject("Asunto");
+//     $objPHPExcel->getProperties()->setDescription("Descripcion");
+
+//     $objPHPExcel->setActiveSheetIndex(0);
+
+//     $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'Algun texto');
+
+//     $objPHPExcel->getActiveSheet()->setTitle('Reporte Enero');
+
+//     $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+//     $objWriter->save('src/img/nombredearchivo.xlsx');
 }
 
 add_action( "admin_head", "WOD_get_orders");
